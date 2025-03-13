@@ -15,33 +15,34 @@ public class LivrosRepository : ILivrosRepository
     {
         var livrosDisponiveis = Livros.Where(livro => livro.Titulo == titulo && livro.Emprestado == false);
         
-        return livrosDisponiveis;
+        return await Task.FromResult(livrosDisponiveis);
     }
 
     public async Task<Livro> BuscarLivroPeloIdAsync(int id)
     {
         var livro = Livros.FirstOrDefault(livro => livro.Id == id);
         
-        return livro;
+        return await Task.FromResult(livro);
     }
 
     public async Task<bool> LivroJaCadastrado(Livro livro)
     {
         var LivroCadastrado = Livros.Any(livro => livro.Id == livro.Id);
         
-        return LivroCadastrado;
+        return await Task.FromResult(LivroCadastrado);
     }
     public async Task<bool> Criar(Livro livro)
     {
         Livros.Add(livro);
         
-        return true;
+        return await Task.FromResult(true);
     }
 
     public async Task<bool> Atualizar(Livro livro)
     {
         var livroAtualizado = Livros.FirstOrDefault(livro => livro.Id == livro.Id);
         
+        livroAtualizado.Id = livro.Id;
         livroAtualizado.Titulo = livro.Titulo;
         livroAtualizado.Emprestado = livro.Emprestado;
         livroAtualizado.Autor = livro.Autor;
@@ -49,13 +50,13 @@ public class LivrosRepository : ILivrosRepository
         livroAtualizado.ISBN = livro.ISBN;
         livroAtualizado.AnoPublicacao = livro.AnoPublicacao;
 
-        return true;
+        return await Task.FromResult(true);
     }
 
     public async Task<bool> Deletar(Livro livro)
     {
         Livros.Remove(livro);
         
-        return true;
+        return await Task.FromResult(true);
     }
 }
